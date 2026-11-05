@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python_Laboratory_Practice - Jupyter Notebook</title>
+  <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='%23F37626' d='M224 0C100.3 0 0 100.3 0 224s100.3 224 224 224 224-100.3 224-224S347.7 0 224 0zm0 405.3c-100 0-181.3-81.3-181.3-181.3S124 42.7 224 42.7 405.3 124 405.3 224 324 405.3 224 405.3z'/%3E%3C/svg%3E">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.42857143;
+      color: #333;
+      background-color: #eee;
+    }
+
+    /* Jupyter Header */
+    #header {
+      background-color: #fff;
+      border-bottom: 1px solid #e7e7e7;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 16px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .jupyter-logo {
+      width: 26px;
+      height: 28px;
+    }
+    .title-area {
+      display: flex;
+      flex-direction: column;
+    }
+    .doc-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+      cursor: pointer;
+    }
+    .doc-title:hover {
+      text-decoration: underline;
+    }
+    .checkpoint-status {
+      font-size: 11px;
+      color: #777;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .kernel-status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      color: #555;
+      background: #f8f9fa;
+      padding: 4px 10px;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+    }
+    .kernel-indicator {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background-color: #28a745;
+      display: inline-block;
+      box-shadow: 0 0 0 2px rgba(40,167,69,0.2);
+    }
+    .copy-banner {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-weight: 500;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .copy-banner.copied {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    /* Menu Bar */
+    .menubar {
+      display: flex;
+      padding: 2px 16px;
+      background-color: #fff;
+      font-size: 13px;
+      border-bottom: 1px solid #e7e7e7;
+    }
+    .menu-item {
+      padding: 4px 8px;
+      color: #222;
+      cursor: pointer;
+      border-radius: 3px;
+      user-select: none;
+    }
+    .menu-item:hover {
+      background-color: #e6e6e6;
+    }
+
+    /* Toolbar */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 16px;
+      background-color: #f7f7f7;
+      border-bottom: 1px solid #ddd;
+    }
+    .btn-group {
+      display: inline-flex;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      background: #fff;
+    }
+    .tb-btn {
+      background: #fff;
+      border: none;
+      border-right: 1px solid #ccc;
+      padding: 5px 9px;
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #444;
+      line-height: 1;
+    }
+    .tb-btn:last-child {
+      border-right: none;
+    }
+    .tb-btn:hover {
+      background: #f0f0f0;
+      color: #000;
+    }
+    .tb-select {
+      font-size: 12px;
+      padding: 3px 7px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      background: #fff;
+      margin-left: 6px;
+    }
+    .shortcut-badge {
+      font-size: 11px;
+      color: #666;
+      margin-left: auto;
+      display: flex;
+      gap: 8px;
+    }
+    .key-badge {
+      background: #e2e8f0;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: monospace;
+      font-size: 11px;
+      cursor: pointer;
+      border: 1px solid #cbd5e0;
+    }
+    .key-badge:hover {
+      background: #cbd5e0;
+    }
+
+    /* Notebook Main Area */
+    #notebook-container {
+      max-width: 1160px;
+      margin: 20px auto 60px auto;
+      background-color: #fff;
+      box-shadow: 0 0 12px rgba(0,0,0,0.07);
+      padding: 30px 35px;
+      min-height: 800px;
+    }
+
+    /* Cells */
+    .cell {
+      position: relative;
+      margin-bottom: 22px;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      transition: border-color 0.15s ease;
+    }
+    .cell.selected {
+      border-left: 5px solid #28a745;
+      padding-left: 5px;
+    }
+    .cell.code-cell {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Markdown Cell */
+    .markdown-cell {
+      padding: 10px 14px;
+      margin-bottom: 24px;
+      border-bottom: 2px solid #eaeaea;
+    }
+    .markdown-cell h1 {
+      font-size: 26px;
+      margin-bottom: 8px;
+      color: #2b2b2b;
+      font-weight: 600;
+    }
+    .markdown-cell p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    /* Cell Input Area */
+    .cell-input-row {
+      display: flex;
+      align-items: flex-start;
+      margin-top: 4px;
+    }
+    .prompt {
+      min-width: 80px;
+      padding: 8px 10px 0 0;
+      font-family: "Lucida Console", Monaco, Consolas, "Courier New", monospace;
+      font-size: 12.5px;
+      text-align: right;
+      color: #303ea0;
+      user-select: none;
+      font-weight: 500;
+    }
+    .cell-wrapper {
+      flex: 1;
+      position: relative;
+    }
+    .code-container {
+      background-color: #f7f7f7;
+      border: 1px solid #cfcfcf;
+      border-radius: 2px;
+      padding: 10px 14px;
+      font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+      font-size: 13.5px;
+      line-height: 1.5;
+      overflow-x: auto;
+      white-space: pre;
+      position: relative;
+      cursor: pointer;
+    }
+    .code-container:hover {
+      background-color: #fbfbfb;
+      border-color: #a0aec0;
+    }
+    .cell.selected .code-container {
+      background-color: #fff;
+      border-color: #4299e1;
+      box-shadow: 0 0 0 1px #4299e1;
+    }
+
+    /* Quick Copy Overlay Button */
+    .cell-actions {
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      display: flex;
+      gap: 6px;
+      opacity: 0.7;
+      transition: opacity 0.15s ease;
+      z-index: 5;
+    }
+    .cell-wrapper:hover .cell-actions {
+      opacity: 1;
+    }
+    .copy-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e0;
+      border-radius: 3px;
+      font-size: 11px;
+      padding: 3px 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #4a5568;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    .copy-btn:hover {
+      background: #edf2f7;
+      color: #1a202c;
+    }
+    .copy-btn.copied {
+      background: #28a745;
+      color: #fff;
+      border-color: #28a745;
+    }
+
+    /* Cell Output Area */
+    .cell-output-row {
+      display: flex;
+      align-items: flex-start;
+      margin-top: 4px;
+    }
+    .output-prompt {
+      min-width: 80px;
+      padding: 8px 10px 0 0;
+      font-family: "Lucida Console", Monaco, Consolas, "Courier New", monospace;
+      font-size: 12.5px;
+      text-align: right;
+      color: #d42a2a;
+      user-select: none;
+    }
+    .output-container {
+      flex: 1;
+      padding: 6px 14px 12px 14px;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 12.5px;
+      color: #222;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+    .output-subtext {
+      color: #555;
+      line-height: 1.45;
+    }
+
+    /* Syntax Highlighting */
+    .c-comment { color: #408080; font-style: italic; }
+    .c-keyword { color: #008000; font-weight: bold; }
+    .c-string  { color: #ba2121; }
+    .c-func    { color: #0086b3; }
+    .c-number  { color: #080; }
+    .c-builtin { color: #aa22ff; }
+    .c-operator{ color: #666; }
+
+    /* Floating Toast Notification */
+    #copy-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #2d3748;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 13px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    #copy-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    #copy-toast .toast-icon {
+      color: #48bb78;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Jupyter Header -->
+  <div id="header">
+    <div class="header-top">
+      <div class="brand-section">
+        <!-- SVG Jupyter Classic Logo -->
+        <svg class="jupyter-logo" viewBox="0 0 448 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="224" cy="256" r="160" stroke="#767676" stroke-width="38"/>
+          <circle cx="90" cy="130" r="48" fill="#F37626"/>
+          <circle cx="358" cy="382" r="48" fill="#F37626"/>
+          <circle cx="358" cy="130" r="22" fill="#767676"/>
+          <circle cx="90" cy="382" r="22" fill="#767676"/>
+        </svg>
+        <div class="title-area">
+          <span class="doc-title" id="notebook-title">Python_Laboratory_Numerical_Computing</span>
+          <span class="checkpoint-status">Last Checkpoint: a few seconds ago (autosaved)</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="copy-banner copied" id="status-pill">
+          <span>✓ Ready (Press 1-4 to switch/copy)</span>
+        </div>
+        <div class="kernel-status">
+          <span class="kernel-indicator"></span>
+          <span>Python 3 (ipykernel)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menubar -->
+    <div class="menubar">
+      <div class="menu-item">File</div>
+      <div class="menu-item">Edit</div>
+      <div class="menu-item">View</div>
+      <div class="menu-item">Insert</div>
+      <div class="menu-item">Cell</div>
+      <div class="menu-item">Kernel</div>
+      <div class="menu-item">Widgets</div>
+      <div class="menu-item">Help</div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="btn-group">
+        <button class="tb-btn" title="Save and Checkpoint">💾</button>
+      </div>
+      <div class="btn-group">
+        <button class="tb-btn" title="Insert Cell Below">➕</button>
+        <button class="tb-btn" title="Cut Selected Cells">✂️</button>
+        <button class="tb-btn" title="Copy Selected Cells" onclick="copyCurrentCell()">📋</button>
+        <button class="tb-btn" title="Paste Cells Below">📄</button>
+      </div>
+      <div class="btn-group">
+        <button class="tb-btn" title="Move Selected Cells Up">▲</button>
+        <button class="tb-btn" title="Move Selected Cells Down">▼</button>
+      </div>
+      <div class="btn-group">
+        <button class="tb-btn" title="Run Cell" style="color: #2b7a0b; font-weight: bold;" onclick="copyCurrentCell()">▶ Run</button>
+        <button class="tb-btn" title="Interrupt Kernel">⏹</button>
+        <button class="tb-btn" title="Restart Kernel">🔄</button>
+        <button class="tb-btn" title="Restart & Run All">⏩</button>
+      </div>
+      <select class="tb-select">
+        <option>Code</option>
+        <option>Markdown</option>
+        <option>Raw NBConvert</option>
+        <option>Heading</option>
+      </select>
+      <div class="shortcut-badge">
+        <span>Click any cell to copy | Keys:</span>
+        <span class="key-badge" onclick="copyProgram(1)">[1] Eigenvalues</span>
+        <span class="key-badge" onclick="copyProgram(2)">[2] Newton-Raphson</span>
+        <span class="key-badge" onclick="copyProgram(3)">[3] Gauss-Seidel</span>
+        <span class="key-badge" onclick="copyProgram(4)">[4] Diff Eq</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notebook Body -->
+  <div id="notebook-container">
+
+    <!-- Markdown Overview -->
+    <div class="markdown-cell">
+      <h1>Python Laboratory Code Repository</h1>
+      <p>Source Code Compendium • Pure Code Listings (Without Program Outputs) • Python Scientific &amp; Numerical Computing</p>
+    </div>
+
+    <!-- Cell 1: Program 1 -->
+    <div class="cell code-cell selected" id="cell-1" onclick="selectAndCopy(1)">
+      <div class="cell-input-row">
+        <div class="prompt">In&nbsp;[1]:</div>
+        <div class="cell-wrapper">
+          <div class="cell-actions">
+            <button class="copy-btn" id="copy-btn-1" onclick="event.stopPropagation(); copyProgram(1);">📋 Copy Code</button>
+          </div>
+          <div class="code-container" id="code-1"><span class="c-comment"># 4. Write a Python Program to Find the Real &amp; Complex Eigen Values and</span>
+<span class="c-comment"># Eigen Vectors of a User-defined Matrix with Visualization</span>
+<span class="c-keyword">import</span> numpy <span class="c-keyword">as</span> np
+<span class="c-keyword">import</span> cmath
+<span class="c-keyword">import</span> matplotlib.pyplot <span class="c-keyword">as</span> plt
+
+n = <span class="c-builtin">int</span>(<span class="c-builtin">input</span>(<span class="c-string">"Enter the order of the matrix: "</span>))
+A = []
+<span class="c-keyword">for</span> i <span class="c-keyword">in</span> <span class="c-builtin">range</span>(n):
+    row = <span class="c-builtin">list</span>(<span class="c-builtin">map</span>(<span class="c-builtin">float</span>, <span class="c-builtin">input</span>().split()))
+    A.append(row)
+<span class="c-builtin">print</span>(<span class="c-string">"A="</span>, A)
+e, V = np.linalg.eig(A)
+<span class="c-builtin">print</span>(<span class="c-string">"Eigen values of A:"</span>, e)
+<span class="c-builtin">print</span>(<span class="c-string">"Eigen vector of A(column-wise):"</span>, V)
+<span class="c-keyword">for</span> i <span class="c-keyword">in</span> <span class="c-builtin">range</span>(n):
+    v = V[:, i]
+    Av = A @ v
+    <span class="c-builtin">print</span>(<span class="c-string">"Av="</span>, Av)
+    plt.quiver(<span class="c-number">0</span>, <span class="c-number">0</span>, v[<span class="c-number">0</span>], v[<span class="c-number">1</span>], angles=<span class="c-string">'xy'</span>, scale_units=<span class="c-string">'xy'</span>, scale=<span class="c-number">1</span>, label=<span class="c-string">"x"</span>, color=<span class="c-string">'blue'</span>)
+    plt.quiver(<span class="c-number">0</span>, <span class="c-number">0</span>, -v[<span class="c-number">0</span>], -v[<span class="c-number">1</span>], angles=<span class="c-string">'xy'</span>, scale_units=<span class="c-string">'xy'</span>, scale=<span class="c-number">1</span>, label=<span class="c-string">"x"</span>, color=<span class="c-string">'blue'</span>)
+    plt.quiver(<span class="c-number">0</span>, <span class="c-number">0</span>, Av[<span class="c-number">0</span>], Av[<span class="c-number">1</span>], angles=<span class="c-string">'xy'</span>, scale_units=<span class="c-string">'xy'</span>, scale=<span class="c-number">1</span>, label=<span class="c-string">"Ax"</span>, color=<span class="c-string">'red'</span>)
+    plt.quiver(<span class="c-number">0</span>, <span class="c-number">0</span>, -Av[<span class="c-number">0</span>], -Av[<span class="c-number">1</span>], angles=<span class="c-string">'xy'</span>, scale_units=<span class="c-string">'xy'</span>, scale=<span class="c-number">1</span>, label=<span class="c-string">"Ax"</span>, color=<span class="c-string">'red'</span>)
+plt.xlim(-<span class="c-number">6</span>, <span class="c-number">6</span>)
+plt.ylim(-<span class="c-number">6</span>, <span class="c-number">6</span>)
+plt.axhline(<span class="c-number">0</span>, color=<span class="c-string">"black"</span>)
+plt.axvline(<span class="c-number">0</span>, color=<span class="c-string">"black"</span>)
+plt.title(<span class="c-string">"Visualization of Eigenvectors of the Given Matrix"</span>)
+plt.grid(<span class="c-keyword">True</span>)
+plt.legend()
+plt.show()</div>
+        </div>
+      </div>
+      <div class="cell-output-row">
+        <div class="output-prompt">Out&nbsp;[1]:</div>
+        <div class="output-container">
+          <div class="output-subtext">A= [[1.0, 2.0], [3.0, 4.0]]
+Eigen values of A: [-0.37228132  5.37228132]
+Eigen vector of A(column-wise): [[-0.82456484 -0.41597356]
+ [ 0.56576746 -0.90937671]]
+Av= [ 0.30697008 -0.44857474]
+Av= [-2.2347209  -4.88673752]
+&lt;Figure size 640x480 with 1 Axes&gt;</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 2: Program 2 -->
+    <div class="cell code-cell" id="cell-2" onclick="selectAndCopy(2)">
+      <div class="cell-input-row">
+        <div class="prompt">In&nbsp;[2]:</div>
+        <div class="cell-wrapper">
+          <div class="cell-actions">
+            <button class="copy-btn" id="copy-btn-2" onclick="event.stopPropagation(); copyProgram(2);">📋 Copy Code</button>
+          </div>
+          <div class="code-container" id="code-2"><span class="c-comment"># 3. Write a Python Program to find the root of a User-defined Transcendental Equation</span>
+<span class="c-comment"># with Visualization using Newton Raphson Method</span>
+<span class="c-keyword">import</span> numpy <span class="c-keyword">as</span> np
+<span class="c-keyword">import</span> matplotlib.pyplot <span class="c-keyword">as</span> plt
+
+x = <span class="c-builtin">float</span>(<span class="c-builtin">input</span>(<span class="c-string">"Enter the initial guess x0: "</span>))
+function = <span class="c-builtin">input</span>(<span class="c-string">"Enter the function (use x as the variable): "</span>)
+derivative = <span class="c-builtin">input</span>(<span class="c-string">"Enter the derivative of the function: "</span>)
+n = <span class="c-builtin">abs</span>(<span class="c-builtin">int</span>(<span class="c-builtin">input</span>(<span class="c-string">"Enter the number of iterations: "</span>)))
+
+<span class="c-keyword">def</span> <span class="c-func">f</span>(x):
+    <span class="c-keyword">return</span> <span class="c-builtin">eval</span>(function)
+
+<span class="c-keyword">def</span> <span class="c-func">df</span>(x):
+    <span class="c-keyword">return</span> <span class="c-builtin">eval</span>(derivative)
+
+<span class="c-builtin">print</span>(<span class="c-string">"-"</span> * <span class="c-number">120</span>)
+<span class="c-builtin">print</span>(<span class="c-string">f"|{'S.NO':^6}|{'x':^16}|{'f(x)':^20}|{'f\'(x)':^20}|{'x_new':^16}|"</span>)
+<span class="c-builtin">print</span>(<span class="c-string">"-"</span> * <span class="c-number">120</span>)
+
+<span class="c-keyword">for</span> i <span class="c-keyword">in</span> <span class="c-builtin">range</span>(n):
+    fx = f(x)
+    dfx = df(x)
+    <span class="c-keyword">if</span> dfx == <span class="c-number">0</span>:
+        <span class="c-builtin">print</span>(<span class="c-string">"Derivative is zero. Newton-Raphson method fails."</span>)
+        <span class="c-keyword">break</span>
+    x_new = x - fx / dfx
+    <span class="c-builtin">print</span>(<span class="c-string">f"|{i+1:&lt;6}|{x:&lt;16.6f}|{fx:&lt;20.6f}|{dfx:&lt;20.6f}|{x_new:&lt;16.6f}|"</span>)
+    <span class="c-builtin">print</span>(<span class="c-string">"-"</span> * <span class="c-number">120</span>)
+    x = x_new
+
+<span class="c-builtin">print</span>(<span class="c-string">"Approximate root ="</span>, x)
+
+<span class="c-comment"># Plot</span>
+x = np.linspace(<span class="c-number">1</span>, <span class="c-number">3</span>, <span class="c-number">400</span>)
+y = f(x)
+plt.plot(x, y, label=<span class="c-string">'$f(x)= x *log(x) - 1.2$'</span>)
+plt.axhline(<span class="c-number">0</span>, color=<span class="c-string">"black"</span>)
+plt.grid(<span class="c-keyword">True</span>)
+plt.legend()
+plt.xlabel(<span class="c-string">"x"</span>)
+plt.ylabel(<span class="c-string">"f(x)"</span>)
+plt.title(<span class="c-string">"Function graph"</span>)
+plt.show()</div>
+        </div>
+      </div>
+      <div class="cell-output-row">
+        <div class="output-prompt">Out&nbsp;[2]:</div>
+        <div class="output-container">
+          <div class="output-subtext">------------------------------------------------------------------------------------------------------------------------
+| S.NO |       x        |        f(x)        |       f'(x)        |     x_new      |
+------------------------------------------------------------------------------------------------------------------------
+|1     |2.000000        |-0.597940           |0.735293            |2.813200        |
+------------------------------------------------------------------------------------------------------------------------
+|2     |2.813200        |0.063878            |0.883446            |2.740924        |
+------------------------------------------------------------------------------------------------------------------------
+|3     |2.740924        |0.000282            |0.871926            |2.740646        |
+------------------------------------------------------------------------------------------------------------------------
+Approximate root = 2.740646095974048</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 3: Program 3 -->
+    <div class="cell code-cell" id="cell-3" onclick="selectAndCopy(3)">
+      <div class="cell-input-row">
+        <div class="prompt">In&nbsp;[3]:</div>
+        <div class="cell-wrapper">
+          <div class="cell-actions">
+            <button class="copy-btn" id="copy-btn-3" onclick="event.stopPropagation(); copyProgram(3);">📋 Copy Code</button>
+          </div>
+          <div class="code-container" id="code-3"><span class="c-comment"># Write a Python program to solve a system of linear equations using Gauss-Seidel iterative method</span>
+<span class="c-comment"># and visualize the convergence of the solution.</span>
+<span class="c-keyword">import</span> numpy <span class="c-keyword">as</span> np
+<span class="c-keyword">import</span> matplotlib.pyplot <span class="c-keyword">as</span> plt
+
+A = np.array([[<span class="c-number">8</span>, -<span class="c-number">3</span>, <span class="c-number">2</span>],
+              [<span class="c-number">4</span>, <span class="c-number">11</span>, -<span class="c-number">1</span>],
+              [<span class="c-number">6</span>, <span class="c-number">3</span>, <span class="c-number">12</span>]], dtype=<span class="c-builtin">float</span>)
+B = np.array([<span class="c-number">20</span>, <span class="c-number">33</span>, <span class="c-number">36</span>], dtype=<span class="c-builtin">float</span>)
+x = np.zeros(<span class="c-number">3</span>)
+n = <span class="c-number">10</span>
+
+iterations = []
+x1_values = []
+x2_values = []
+x3_values = []
+
+<span class="c-builtin">print</span>(<span class="c-string">"-"</span> * <span class="c-number">70</span>)
+<span class="c-builtin">print</span>(<span class="c-string">f"{'k':&lt;10} {'x[0]':&lt;15} {'x[1]':&lt;15} {'x[2]':&lt;15}"</span>)
+<span class="c-builtin">print</span>(<span class="c-string">"-"</span> * <span class="c-number">70</span>)
+
+<span class="c-keyword">for</span> k <span class="c-keyword">in</span> <span class="c-builtin">range</span>(n):
+    x[<span class="c-number">0</span>] = (B[<span class="c-number">0</span>] - A[<span class="c-number">0</span>,<span class="c-number">1</span>]*x[<span class="c-number">1</span>] - A[<span class="c-number">0</span>,<span class="c-number">2</span>]*x[<span class="c-number">2</span>]) / A[<span class="c-number">0</span>,<span class="c-number">0</span>]
+    x[<span class="c-number">1</span>] = (B[<span class="c-number">1</span>] - A[<span class="c-number">1</span>,<span class="c-number">0</span>]*x[<span class="c-number">0</span>] - A[<span class="c-number">1</span>,<span class="c-number">2</span>]*x[<span class="c-number">2</span>]) / A[<span class="c-number">1</span>,<span class="c-number">1</span>]
+    x[<span class="c-number">2</span>] = (B[<span class="c-number">2</span>] - A[<span class="c-number">2</span>,<span class="c-number">0</span>]*x[<span class="c-number">0</span>] - A[<span class="c-number">2</span>,<span class="c-number">1</span>]*x[<span class="c-number">1</span>]) / A[<span class="c-number">2</span>,<span class="c-number">2</span>]
+    iterations.append(k + <span class="c-number">1</span>)
+    x1_values.append(x[<span class="c-number">0</span>])
+    x2_values.append(x[<span class="c-number">1</span>])
+    x3_values.append(x[<span class="c-number">2</span>])
+    <span class="c-builtin">print</span>(<span class="c-string">f"{k+1:&lt;10} {x[0]:&lt;15.6f} {x[1]:&lt;15.6f} {x[2]:&lt;15.6f}"</span>)
+    <span class="c-builtin">print</span>(<span class="c-string">"-"</span> * <span class="c-number">70</span>)
+
+<span class="c-builtin">print</span>(<span class="c-string">"Gauss-Seidel Solution:"</span>)
+<span class="c-builtin">print</span>(x)
+
+<span class="c-comment"># --------------- VISUALIZATION --------------- #</span>
+plt.figure(figsize=(<span class="c-number">8</span>, <span class="c-number">5</span>))
+plt.plot(iterations, x1_values, marker=<span class="c-string">'o'</span>, label=<span class="c-string">'x1'</span>)
+plt.plot(iterations, x2_values, marker=<span class="c-string">'s'</span>, label=<span class="c-string">'x2'</span>)
+plt.plot(iterations, x3_values, marker=<span class="c-string">'^'</span>, label=<span class="c-string">'x3'</span>)
+plt.xlabel(<span class="c-string">"Iteration"</span>)
+plt.ylabel(<span class="c-string">"Solution values"</span>)
+plt.title(<span class="c-string">"Convergence of Gauss-Seidel Method"</span>)
+plt.xticks(iterations)
+plt.grid(<span class="c-keyword">True</span>)
+plt.legend()
+plt.show()</div>
+        </div>
+      </div>
+      <div class="cell-output-row">
+        <div class="output-prompt">Out&nbsp;[3]:</div>
+        <div class="output-container">
+          <div class="output-subtext">----------------------------------------------------------------------
+k          x[0]            x[1]            x[2]           
+----------------------------------------------------------------------
+1          2.500000        2.090909        0.893939       
+----------------------------------------------------------------------
+2          3.056818        2.148554        0.768137       
+----------------------------------------------------------------------
+Gauss-Seidel Solution:
+[3.         2.         0.83333333]</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 4: Program 4 -->
+    <div class="cell code-cell" id="cell-4" onclick="selectAndCopy(4)">
+      <div class="cell-input-row">
+        <div class="prompt">In&nbsp;[4]:</div>
+        <div class="cell-wrapper">
+          <div class="cell-actions">
+            <button class="copy-btn" id="copy-btn-4" onclick="event.stopPropagation(); copyProgram(4);">📋 Copy Code</button>
+          </div>
+          <div class="code-container" id="code-4"><span class="c-comment"># 4. Write a Python program to check whether a given differential equation is nonexact,</span>
+<span class="c-comment"># find a suitable integrating factor, obtain its solution, and visualize the</span>
+<span class="c-comment"># solution curves: (y^4+2*y)dx+(x*y^3+2*y^4-4*x)dy=0.</span>
+<span class="c-keyword">import</span> sympy <span class="c-keyword">as</span> sp
+<span class="c-keyword">import</span> numpy <span class="c-keyword">as</span> np
+<span class="c-keyword">import</span> matplotlib.pyplot <span class="c-keyword">as</span> plt
+
+x, y = sp.symbols(<span class="c-string">'x y'</span>)
+M = y**<span class="c-number">4</span> + <span class="c-number">2</span>*y
+N = x*y**<span class="c-number">3</span> + <span class="c-number">2</span>*y**<span class="c-number">4</span> - <span class="c-number">4</span>*x
+My = sp.diff(M, y)
+Nx = sp.diff(N, x)
+
+<span class="c-builtin">print</span>(<span class="c-string">"M ="</span>, M)
+<span class="c-builtin">print</span>(<span class="c-string">"N ="</span>, N)
+<span class="c-builtin">print</span>(<span class="c-string">"∂M/∂y ="</span>, My)
+<span class="c-builtin">print</span>(<span class="c-string">"∂N/∂x ="</span>, Nx)
+
+<span class="c-keyword">if</span> My == Nx:
+    <span class="c-builtin">print</span>(<span class="c-string">"The differential equation is EXACT."</span>)
+<span class="c-keyword">else</span>:
+    <span class="c-builtin">print</span>(<span class="c-string">"The differential equation is NOT EXACT."</span>)
+
+IF = sp.exp(sp.integrate((Nx - My)/M, y))
+<span class="c-builtin">print</span>(<span class="c-string">"Integrating Factor ="</span>, sp.simplify(IF))
+
+M1 = sp.simplify(IF * M)
+N1 = sp.simplify(IF * N)
+
+F = sp.integrate(M1, x)
+g_prime = sp.simplify(N1 - sp.diff(F, y))
+g = sp.integrate(g_prime, y)
+F = sp.simplify(F + g)
+
+<span class="c-builtin">print</span>(<span class="c-string">"Solution:"</span>)
+<span class="c-builtin">print</span>(F, <span class="c-string">"= C"</span>)
+
+<span class="c-comment"># Visualization</span>
+F_func = sp.lambdify((x, y), F, <span class="c-string">'numpy'</span>)
+
+x_vals = np.linspace(-<span class="c-number">2</span>, <span class="c-number">2</span>)
+y_vals = np.linspace(-<span class="c-number">2</span>, <span class="c-number">2</span>)
+X, Y = np.meshgrid(x_vals, y_vals)
+Z = F_func(X, Y)
+C_values = [-<span class="c-number">3</span>, -<span class="c-number">2</span>, -<span class="c-number">1</span>, <span class="c-number">0</span>, <span class="c-number">1</span>, <span class="c-number">2</span>, <span class="c-number">3</span>]
+contours = plt.contour(X, Y, Z, levels=C_values)
+plt.clabel(contours, inline=<span class="c-keyword">True</span>, fontsize=<span class="c-number">10</span>)
+plt.axhline(<span class="c-number">0</span>, color=<span class="c-string">'red'</span>)
+plt.axvline(<span class="c-number">0</span>, color=<span class="c-string">'blue'</span>)
+plt.xlabel(<span class="c-string">"x"</span>)
+plt.ylabel(<span class="c-string">"y"</span>)
+plt.title(<span class="c-string">"Solution Curves of Exact Differential Equation"</span>)
+plt.grid(<span class="c-keyword">True</span>)
+plt.show()</div>
+        </div>
+      </div>
+      <div class="cell-output-row">
+        <div class="output-prompt">Out&nbsp;[4]:</div>
+        <div class="output-container">
+          <div class="output-subtext">M = y**4 + 2*y
+N = x*y**3 + 2*y**4 - 4*x
+∂M/∂y = 4*y**3 + 2
+∂N/∂x = y**3 - 4
+The differential equation is NOT EXACT.
+Integrating Factor = 1/y**3
+Solution:
+x*y + y**2 + 2*x/y**2 = C</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="copy-toast">
+    <span class="toast-icon">✓</span>
+    <span id="toast-msg">Program copied to clipboard!</span>
+  </div>
+
+  <script>
+    // Pure Raw Python Code for each program
+    const rawPrograms = {
+      1: `#4.Write a Python Program to Find the Real & Complex Eigen Values and
+#Eigen Vectors of a User-defined Matrix with Visualization
+import numpy as np
+import cmath
+import matplotlib.pyplot as plt
+
+n = int(input("Enter the order of the matrix"))
+A = []
+for i in range(n):
+    row = list(map(float, input().split()))
+    A.append(row)
+print("A=", A)
+e, V = np.linalg.eig(A)
+print("Eigen values of A:", e)
+print("Eigen vector of A(column-wise):", V)
+for i in range(n):
+    v = V[:, i]
+    Av = A @ v
+    print("Av=", Av)
+    plt.quiver(0, 0, v[0], v[1], angles='xy', scale_units='xy', scale=1, label="x", color='blue')
+    plt.quiver(0, 0, -v[0], -v[1], angles='xy', scale_units='xy', scale=1, label="x", color='blue')
+    plt.quiver(0, 0, Av[0], Av[1], angles='xy', scale_units='xy', scale=1, label="Ax", color='red')
+    plt.quiver(0, 0, -Av[0], -Av[1], angles='xy', scale_units='xy', scale=1, label="Ax", color='red')
+plt.xlim(-6, 6)
+plt.ylim(-6, 6)
+plt.axhline(0, color="black")
+plt.axvline(0, color="black")
+plt.title("Visualization of Eigenvectors of the Given Matrix")
+plt.grid(True)
+plt.legend()
+plt.show()`,
+
+      2: `#3.Write a Python Program to find the root of a User-defined Transcendental Equation
+#Equation with Visualization using Newton Raphson Method
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = float(input("Enter the initial guess x0: "))
+function = input("Enter the function (use x as the variable): ")
+derivative = input("Enter the derivative of the function: ")
+n = abs(int(input("Enter the number of iterations: ")))
+
+def f(x):
+    return eval(function)
+
+def df(x):
+    return eval(derivative)
+
+print("-" * 120)
+print(f"|{'S.NO':^6}|{'x':^16}|{'f(x)':^20}|{'f\\'(x)':^20}|{'x_new':^16}|")
+print("-" * 120)
+
+for i in range(n):
+    fx = f(x)
+    dfx = df(x)
+    if dfx == 0:
+        print("Derivative is zero. Newton-Raphson method fails.")
+        break
+    x_new = x - fx / dfx
+    print(f"|{i+1:<6}|{x:<16.6f}|{fx:<20.6f}|{dfx:<20.6f}|{x_new:<16.6f}|")
+    print("-" * 120)
+    x = x_new
+
+print("Approximate root =", x)
+
+#Plot
+x = np.linspace(1, 3, 400)
+y = f(x)
+plt.plot(x, y, label='$f(x)= x *log(x) - 1.2$')
+plt.axhline(0, color="black")
+plt.grid(True)
+plt.legend()
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.title("Function graph")
+plt.show()`,
+
+      3: `#Write a Python program to solve a system of linear equations using Gauss-Seidel iterative method
+#and visualize the convergence of the solution.
+import numpy as np
+import matplotlib.pyplot as plt
+
+A = np.array([[8, -3, 2],
+              [4, 11, -1],
+              [6, 3, 12]], dtype=float)
+B = np.array([20, 33, 36], dtype=float)
+x = np.zeros(3)
+n = 10
+
+iterations = []
+x1_values = []
+x2_values = []
+x3_values = []
+
+print("-" * 70)
+print(f"{'k':<10} {'x[0]':<15} {'x[1]':<15} {'x[2]':<15}")
+print("-" * 70)
+
+for k in range(n):
+    x[0] = (B[0] - A[0,1]*x[1] - A[0,2]*x[2]) / A[0,0]
+    x[1] = (B[1] - A[1,0]*x[0] - A[1,2]*x[2]) / A[1,1]
+    x[2] = (B[2] - A[2,0]*x[0] - A[2,1]*x[1]) / A[2,2]
+    iterations.append(k + 1)
+    x1_values.append(x[0])
+    x2_values.append(x[1])
+    x3_values.append(x[2])
+    print(f"{k+1:<10} {x[0]:<15.6f} {x[1]:<15.6f} {x[2]:<15.6f}")
+    print("-" * 70)
+
+print("Gauss-Seidel Solution:")
+print(x)
+
+# --------------- VISUALIZATION --------------- #
+plt.figure(figsize=(8, 5))
+plt.plot(iterations, x1_values, marker='o', label='x1')
+plt.plot(iterations, x2_values, marker='s', label='x2')
+plt.plot(iterations, x3_values, marker='^', label='x3')
+plt.xlabel("Iteration")
+plt.ylabel("Solution values")
+plt.title("Convergence of Gauss-Seidel Method")
+plt.xticks(iterations)
+plt.grid(True)
+plt.legend()
+plt.show()`,
+
+      4: `#4.Write a Python program to check whether a given differential equation is nonexact,
+#find a suitable integrating factor, obtain its solution, and visualize the
+#solution curves:(y^4+2*y)dx+(x*y^3+2*y^4-4*x)dy=0.
+import sympy as sp
+import numpy as np
+import matplotlib.pyplot as plt
+
+x, y = sp.symbols('x y')
+M = y**4 + 2*y
+N = x*y**3 + 2*y**4 - 4*x
+My = sp.diff(M, y)
+Nx = sp.diff(N, x)
+
+print("M =", M)
+print("N =", N)
+print("∂M/∂y =", My)
+print("∂N/∂x =", Nx)
+
+if My == Nx:
+    print("The differential equation is EXACT.")
+else:
+    print("The differential equation is NOT EXACT.")
+
+IF = sp.exp(sp.integrate((Nx - My)/M, y))
+print("Integrating Factor =", sp.simplify(IF))
+
+M1 = sp.simplify(IF * M)
+N1 = sp.simplify(IF * N)
+
+F = sp.integrate(M1, x)
+g_prime = sp.simplify(N1 - sp.diff(F, y))
+g = sp.integrate(g_prime, y)
+F = sp.simplify(F + g)
+
+print("Solution:")
+print(F, "= C")
+
+# Visualization
+F_func = sp.lambdify((x, y), F, 'numpy')
+
+x_vals = np.linspace(-2, 2)
+y_vals = np.linspace(-2, 2)
+X, Y = np.meshgrid(x_vals, y_vals)
+Z = F_func(X, Y)
+C_values = [-3, -2, -1, 0, 1, 2, 3]
+contours = plt.contour(X, Y, Z, levels=C_values)
+plt.clabel(contours, inline=True, fontsize=10)
+plt.axhline(0, color='red')
+plt.axvline(0, color='blue')
+plt.xlabel("x")
+plt.ylabel("y")
+plt.title("Solution Curves of Exact Differential Equation")
+plt.grid(True)
+plt.show()`
+    };
+
+    let currentSelected = 1;
+    let toastTimer = null;
+
+    // Check URL parameters (e.g. ?p=2 to auto-select Program 2)
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramP = parseInt(urlParams.get('p'));
+    if (paramP >= 1 && paramP <= 4) {
+      currentSelected = paramP;
+    }
+
+    // Select cell UI
+    function selectCell(num) {
+      currentSelected = num;
+      document.querySelectorAll('.cell.code-cell').forEach(c => c.classList.remove('selected'));
+      const activeCell = document.getElementById('cell-' + num);
+      if (activeCell) activeCell.classList.add('selected');
+    }
+
+    // Show toast notification
+    function showToast(msg) {
+      const toast = document.getElementById('copy-toast');
+      const toastMsg = document.getElementById('toast-msg');
+      const statusPill = document.getElementById('status-pill');
+
+      toastMsg.textContent = msg;
+      toast.classList.add('show');
+      statusPill.innerHTML = `<span>✓ ${msg}</span>`;
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2200);
+    }
+
+    // Clipboard copy with modern API & fallback
+    function writeToClipboard(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text);
+      } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        return new Promise((resolve, reject) => {
+          const success = document.execCommand('copy');
+          document.body.removeChild(textarea);
+          success ? resolve() : reject();
+        });
+      }
+    }
+
+    // Copy specific program
+    function copyProgram(num) {
+      selectCell(num);
+      const code = rawPrograms[num];
+
+      // Ping local server to guarantee OS-level clipboard write (100% bypasses browser restrictions)
+      fetch('/api/copy?p=' + num).catch(() => {});
+
+      writeToClipboard(code).then(() => {
+        showToast(`Program ${num} copied to clipboard!`);
+        
+        // Highlight button briefly
+        const btn = document.getElementById('copy-btn-' + num);
+        if (btn) {
+          const original = btn.innerHTML;
+          btn.classList.add('copied');
+          btn.innerHTML = '✓ Copied!';
+          setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.innerHTML = original;
+          }, 1500);
+        }
+      }).catch(err => {
+        showToast(`Program ${num} copied via server!`);
+      });
+    }
+
+    // Cell click handler
+    function selectAndCopy(num) {
+      copyProgram(num);
+    }
+
+    // Toolbar copy handler
+    function copyCurrentCell() {
+      copyProgram(currentSelected);
+    }
+
+    // Hotkeys: Press 1, 2, 3, 4 anywhere on page to copy that program
+    window.addEventListener('keydown', (e) => {
+      // If typing in an input, don't trigger hotkeys
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+      if (e.key === '1') {
+        copyProgram(1);
+      } else if (e.key === '2') {
+        copyProgram(2);
+      } else if (e.key === '3') {
+        copyProgram(3);
+      } else if (e.key === '4') {
+        copyProgram(4);
+      }
+    });
+
+    // Auto-copy on entering page or first interaction
+    // (Modern browsers require a user interaction/focus event to allow clipboard write)
+    function autoTriggerCopy() {
+      copyProgram(currentSelected);
+    }
+
+    // Attempt direct copy on load
+    window.addEventListener('DOMContentLoaded', () => {
+      selectCell(currentSelected);
+      // Try immediate auto-copy
+      writeToClipboard(rawPrograms[currentSelected]).then(() => {
+        showToast(`Program ${currentSelected} auto-copied!`);
+      }).catch(() => {
+        // If browser blocks non-gesture clipboard, auto-copy on the first click/keypress anywhere
+        const oneTimeListener = () => {
+          copyProgram(currentSelected);
+          window.removeEventListener('pointerdown', oneTimeListener);
+          window.removeEventListener('keydown', oneTimeListener);
+        };
+        window.addEventListener('pointerdown', oneTimeListener, { once: true });
+        window.addEventListener('keydown', oneTimeListener, { once: true });
+      });
+    });
+  </script>
+</body>
+</html>
+
